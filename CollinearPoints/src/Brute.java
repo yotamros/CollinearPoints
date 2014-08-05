@@ -1,45 +1,49 @@
 import java.util.ArrayList;
-
+import java.util.Collections;
+import java.util.List;
 
 public class Brute {
-
     public static void main(String[] args) {
-
-        In file = new In("input10.txt");
-        ArrayList<Integer> points = new ArrayList<Integer>();
         
-        while (file.hasNextLine()) {
-            points.add(file.readInt());
-        }
+        String file = args[0];
+        List<Point> points = readPoints(file);
+        Collections.sort(points);
         
         StdDraw.setXscale(0, 32768);
         StdDraw.setYscale(0, 32768);
         
-
-        for (int i=1; i<points.size()-1; i += 2) {
-            Point point1 = new Point(points.get(i), points.get(i+1));
-            for (int j = i+2; j<points.size()-1; j += 2) {
-                Point point2 = new Point(points.get(j), points.get(j+1));
-                for (int k = j+2; k<points.size()-1; k += 2) {
-                    Point point3 = new Point(points.get(k), points.get(k+1));
-                    for (int m = k+2; m<points.size()-1; m += 2) {
-                        Point point4 = new Point(points.get(m), points.get(m+1));
-                        System.out.println();
-                        System.out.println("---");
-                        if (point1.slopeTo(point2) == point1.slopeTo(point3) && 
-                                point1.slopeTo(point2) == point1.slopeTo(point4)) {
-                            System.out.println("point " + i + " to point " + (j) + ": " + point1.slopeTo(point2));
-                            System.out.println("point " + i + " to point " + (k) + ": " + point1.slopeTo(point3));
-                            System.out.println("point " + i + " to point " + (m) + ": " + point1.slopeTo(point4));
-                            point1.drawTo(point4);
+        for (int i = 0; i < points.size(); i++) {
+            for (int j = i+1; j < points.size(); j++) {
+                for (int k = j+1; k < points.size(); k++) {
+                    for (int l = k+1; l < points.size(); l++) {
+                        Point p1 = points.get(i);
+                        Point p2 = points.get(j);
+                        Point p3 = points.get(k);
+                        Point p4 = points.get(l);
+                        if (p1.slopeTo(p2) == p1.slopeTo(p3) 
+                                && p1.slopeTo(p3) == p1.slopeTo(p4)) {
+                            p1.drawTo(p4);
+                            System.out.println(points.get(i) + " -> "
+                            + points.get(j) + " -> " + points.get(k) 
+                            + " -> " + points.get(l));
                         }
                     }
                 }
             }
-            
         }
         System.out.println("done");
-        
+    }
+
+    private static List<Point> readPoints(String fileName) {
+        In file = new In(fileName);
+        int numOfPoints = file.readInt();
+        List<Point> points = new ArrayList<Point>(numOfPoints);
+        while (file.hasNextLine()) {
+            int x = file.readInt();
+            int y = file.readInt();
+            points.add(new Point(x, y));
+        }
+        return points;
     }
 
 }
