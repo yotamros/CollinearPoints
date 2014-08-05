@@ -15,17 +15,17 @@ public class Fast {
         
         for (int i = 0; i < points.size(); i++) {
             Point origin = points.get(i);
-            List<Point> toCheck = new ArrayList<Point>();
+            List<Point> copy = new ArrayList<Point>();
             for (int j = i+1; j < points.size(); j++) {
-                toCheck.add(points.get(j));
+                copy.add(points.get(j));
             }
-            Collections.sort(toCheck, origin.SLOPE_ORDER);
-            for (int k = 0; k < toCheck.size()-2; k++) {
-                if (toCheck.get(k).slopeTo(origin) == toCheck.get(k+1).slopeTo(origin)
-                        && toCheck.get(k).slopeTo(origin) == toCheck.get(k+2).slopeTo(origin)) {
-                    origin.drawTo(toCheck.get(k+2));
-                    System.out.println(origin + " -> " + toCheck.get(k)
-                            + " -> " + toCheck.get(k+1) + " -> " + toCheck.get(k+2));
+            Collections.sort(copy, origin.SLOPE_ORDER);
+            for (int k = 0; k < copy.size()-2; k++) {
+                if (copy.get(k).slopeTo(origin) == copy.get(k+1).slopeTo(origin)
+                        && copy.get(k).slopeTo(origin) == copy.get(k+2).slopeTo(origin)) {
+                    origin.drawTo(copy.get(k+2));
+                    System.out.println(origin + " -> " + copy.get(k)
+                            + " -> " + copy.get(k+1) + " -> " + copy.get(k+2));
                 }
             }
         }
